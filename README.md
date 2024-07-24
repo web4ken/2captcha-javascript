@@ -1,11 +1,11 @@
-<a href='https://github.com/2captcha/2captcha-python' target='blank'><img src="https://github.com/user-attachments/assets/37e1d860-033b-4cf3-a158-468fc6b4debc" width="82" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-javascript' target='blank'><img src="https://github.com/user-attachments/assets/371b271e-33c3-4217-af21-b95517a4677c" width="36" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-go' target='blank'><img src="https://github.com/user-attachments/assets/ab22182e-6cb2-41fa-91f4-d5e89c6d7c6f" width="63" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-ruby' target='blank'><img src="https://github.com/user-attachments/assets/0270d56f-79b0-4c95-9b09-4de89579914b" width="75" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-cpp' target='blank'><img src="https://github.com/user-attachments/assets/36de8512-acfd-44fb-bb1f-b7c793a3f926" width="45" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-php' target='blank'><img src="https://github.com/user-attachments/assets/e8797843-3f61-4fa9-a155-ab0b21fb3858" width="52" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-java' target='blank'><img src="https://github.com/user-attachments/assets/a3d923f6-4fec-4c07-ac50-e20da6370911" width="50" height="30"></a>
-<a href='https://github.com/2captcha/2captcha-csharp' target='blank'><img src="https://github.com/user-attachments/assets/f4d449de-780b-49ed-bb0a-b70c82ec4b32" width="38" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-python"><img src="https://github.com/user-attachments/assets/37e1d860-033b-4cf3-a158-468fc6b4debc" width="82" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-javascript"><img src="https://github.com/user-attachments/assets/371b271e-33c3-4217-af21-b95517a4677c" width="36" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-go"><img src="https://github.com/user-attachments/assets/ab22182e-6cb2-41fa-91f4-d5e89c6d7c6f" width="63" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-ruby"><img src="https://github.com/user-attachments/assets/0270d56f-79b0-4c95-9b09-4de89579914b" width="75" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-cpp"><img src="https://github.com/user-attachments/assets/36de8512-acfd-44fb-bb1f-b7c793a3f926" width="45" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-php"><img src="https://github.com/user-attachments/assets/e8797843-3f61-4fa9-a155-ab0b21fb3858" width="52" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-java"><img src="https://github.com/user-attachments/assets/a3d923f6-4fec-4c07-ac50-e20da6370911" width="50" height="30"></a>
+<a href="https://github.com/2captcha/2captcha-csharp"><img src="https://github.com/user-attachments/assets/f4d449de-780b-49ed-bb0a-b70c82ec4b32" width="38" height="30"></a>
 
 # JavaScript captcha solver module for 2Captcha API
 
