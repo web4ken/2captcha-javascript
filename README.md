@@ -441,7 +441,7 @@ solver.coordinates({
 })
 ```
 
-### Bounding Box Method:
+### Bounding Box Method
 
 <sup>[API method description.](https://2captcha.com/2captcha-api#bounding_box)</sup>
 
