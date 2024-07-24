@@ -4,6 +4,7 @@ import * as utils from "../utils/generic"
 import  getProviderData  from "./providers/providers"
 import { softId } from "./constants/constants"
 import checkCaptchaParams from "../utils/checkCaptchaParams"
+import renameParams from "../utils/renameParams"
 
 
 const provider = getProviderData ()
@@ -44,15 +45,15 @@ export interface paramsHCaptcha {
 
 // FixMe:data[key] - how to send this parameter
 export interface paramsFunCaptcha {
-  publickey: string,
-  pageurl: string,
-  surl?: string,
-  header_acao?: boolean,
-  pingback?: string,
-  proxy?: string,
-  proxytype?: string,
-  userAgent?: string,
-  data?: string
+    publickey: string,
+    pageurl: string,
+    surl?: string,
+    header_acao?: boolean,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string,
+    userAgent?: string,
+    data?: string
 }
 
 export interface paramsImageCaptcha {
@@ -219,6 +220,21 @@ export interface paramsBoundingBox {
     image: string,
     textinstructions?: string,
     imginstructions?: string,
+}
+
+export interface paramsGrid {
+    body: string,
+    recaptcha: 1,
+    rows?: number
+    cols?: number
+    minСlicks?: number,
+    maxСlicks?: number,
+    previousId?: string,
+    textinstructions?: string,
+    imginstructions?: string,
+    canSkip?: number,
+    lang?: string,
+    pingback?: string,
 }
 
 /**
@@ -398,7 +414,7 @@ export class Solver {
     }
 
     /**
-     * Solves a hCaptcha, returning the result as a string.
+     * ### Solves a hCaptcha
      * 
      * [Read more about other hCaptcha parameters](https://2captcha.com/2captcha-api#solving_hcaptcha).
      * 
@@ -452,7 +468,9 @@ export class Solver {
     }
 
     /**
-     * Solves a GeeTest Captcha. [Read more about parameters and solving for Geetest captcha](https://2captcha.com/2captcha-api#solving_geetest).
+     * ### Solves a GeeTest Captcha.
+     * 
+     * [Read more about parameters and solving for Geetest captcha](https://2captcha.com/2captcha-api#solving_geetest).
      * 
      * @param {{ gt, challenge, api_server, offline, new_captcha,
      *  pageurl, pingback, proxy, proxytype, userAgent }} params
@@ -529,7 +547,6 @@ export class Solver {
     /**
      * ### Solves a GeeTest V4 Captcha.
      * 
-     * 
      * This method accepts an object with the following fields: `pageurl`, `captcha_id`, `pingback`, `proxy`, `proxytype`, `userAgent`.
      * The `pageurl` and `captcha_id` fields are required.
      * 
@@ -581,7 +598,8 @@ export class Solver {
     }
 
     /**
-     * Method for sending Yandex Smart Captcha.
+     * ### Method for sending Yandex Smart Captcha.
+     * 
      * This method accepts an object with the following fields: `pageurl`, `sitekey`, `pingback`, `proxy`, `proxytype`.
      * The `pageurl` and `sitekey` fields are required.
      * 
@@ -633,7 +651,9 @@ export class Solver {
 }
 
     /**
-     * Solves a image-based captcha. [Read more about parameters for image captcha](https://2captcha.com/2captcha-api#solving_normal_captcha).
+     * ### Solves a image-based captcha. 
+     * 
+     * [Read more about parameters for image captcha](https://2captcha.com/2captcha-api#solving_normal_captcha).
      * 
      * @param {{ body,
      *           phrase,
@@ -985,17 +1005,6 @@ export class Solver {
     }
 
     /**
-     *     pageurl: string,
-    captchakey: string,
-    api_server?: string,
-    version?: string,
-    header_acao?: boolean,
-    pingback?: string,
-    proxy?: string,
-    proxytype?: string,
-     */
-
-    /**
      * ### Solves Capy Puzzle captcha
      * 
      * @param {{ pageurl, captchakey, api_server, version, pingback, proxy, proxytype}} params Parameters Capy Puzzle Captcha as an object.
@@ -1317,6 +1326,72 @@ public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
     const payload = {
         ...params,
         method: "bounding_box",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify( payload ),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+
+/**
+ * ### Grid method
+ * 
+ * The method can be used to bypass tasks where a grid is applied to an image and you need to click on grid tiles, like reCAPTCHA or hCaptcha images.
+ * 
+ * @param {{ body, textinstructions, imginstructions, rows, cols, minСlicks, maxСlicks, previousId, canSkip, lang, pingback}} params Parameters Grid Method as an object.
+ * @param {string} params.body `Base64`- encoded captcha image.
+ * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
+ * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
+ * @param {number} params.rows Number of rows in grid captcha.
+ * @param {number} params.cols Number of columns in grid captcdha.
+ * @param {number} params.minСlicks The minimum number of tiles that must be selected. Can't be more than `rows` * `cols`.
+ * @param {number} params.maxСlicks The maximum number of tiles that can be selected on the image.
+ * @param {string} params.previousId Id of your previous request with the same captcha challenge.
+ * @param {number} params.canSkip Set the value to `1` only if it's possible that there's no images matching to the instruction. We'll provide a button "No matching images" to worker and you will receive `No_matching_images` as answer.
+ * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
+ * 
+ * @example
+ * solver.grid({
+ *  body: 'iVBORw0KGgoAAAANSUhEUgAAAcIA...',
+ *  textinstructions: "Select cars in the image",
+ *  imginstructions: '/9j/4AAQSkZJRgABAQEA...'
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async grid(params: paramsGrid): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "grid")
+
+    params = await renameParams(params)
+
+    const payload = {
+        ...params,
+        method: "base64",
+        recaptcha: 1,
         ...this.defaultPayload,
     }
 

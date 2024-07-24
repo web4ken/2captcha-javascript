@@ -1,6 +1,6 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
-"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha']
+"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -20,6 +20,7 @@ const сyberSiARARequiredFields =  ['pageurl', 'master_url_id', 'userAgent']
 const mtСaptchaRequiredFields =   ['pageurl', 'sitekey']
 const boundingBoxRequiredFields = ['image'] // and textinstructions or imginstructions
 const friendlyCaptchaFields =     ['pageurl','sitekey']
+const gridRequiredFields =        ['body']  // and textinstructions or imginstructions
 
 /**
  * Getting required arguments for a captcha.
@@ -60,6 +61,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "base64":
       requiredFieldsArr = base64RequiredFields
+      break;
+    case "grid":
+      requiredFieldsArr = gridRequiredFields
       break;
     case "capy":
       requiredFieldsArr = capyPuzzleRequiredFields
@@ -116,7 +120,16 @@ export default function checkCaptchaParams(params: Object, method: string) {
       isCorrectCaptchaParams = true
     } else {
       isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "bounding_box" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "bounding_box" method according to the code examples`)
+      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "bounding_box" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "bounding_box" method according to the code examples.`)
+    }
+  }
+
+  if(method === "grid") {
+    if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
+      isCorrectCaptchaParams = true
+    } else {
+      isCorrectCaptchaParams = false
+      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "Grid" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "Grid" method according to the code examples.`)
     }
   }
 
