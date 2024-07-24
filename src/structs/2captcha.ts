@@ -45,15 +45,15 @@ export interface paramsHCaptcha {
 
 // FixMe:data[key] - how to send this parameter
 export interface paramsFunCaptcha {
-  publickey: string,
-  pageurl: string,
-  surl?: string,
-  header_acao?: boolean,
-  pingback?: string,
-  proxy?: string,
-  proxytype?: string,
-  userAgent?: string,
-  data?: string
+    publickey: string,
+    pageurl: string,
+    surl?: string,
+    header_acao?: boolean,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string,
+    userAgent?: string,
+    data?: string
 }
 
 export interface paramsImageCaptcha {
@@ -414,7 +414,7 @@ export class Solver {
     }
 
     /**
-     * Solves a hCaptcha, returning the result as a string.
+     * ### Solves a hCaptcha
      * 
      * [Read more about other hCaptcha parameters](https://2captcha.com/2captcha-api#solving_hcaptcha).
      * 
@@ -468,7 +468,9 @@ export class Solver {
     }
 
     /**
-     * Solves a GeeTest Captcha. [Read more about parameters and solving for Geetest captcha](https://2captcha.com/2captcha-api#solving_geetest).
+     * ### Solves a GeeTest Captcha.
+     * 
+     * [Read more about parameters and solving for Geetest captcha](https://2captcha.com/2captcha-api#solving_geetest).
      * 
      * @param {{ gt, challenge, api_server, offline, new_captcha,
      *  pageurl, pingback, proxy, proxytype, userAgent }} params
@@ -545,7 +547,6 @@ export class Solver {
     /**
      * ### Solves a GeeTest V4 Captcha.
      * 
-     * 
      * This method accepts an object with the following fields: `pageurl`, `captcha_id`, `pingback`, `proxy`, `proxytype`, `userAgent`.
      * The `pageurl` and `captcha_id` fields are required.
      * 
@@ -597,7 +598,8 @@ export class Solver {
     }
 
     /**
-     * Method for sending Yandex Smart Captcha.
+     * ### Method for sending Yandex Smart Captcha.
+     * 
      * This method accepts an object with the following fields: `pageurl`, `sitekey`, `pingback`, `proxy`, `proxytype`.
      * The `pageurl` and `sitekey` fields are required.
      * 
@@ -649,7 +651,9 @@ export class Solver {
 }
 
     /**
-     * Solves a image-based captcha. [Read more about parameters for image captcha](https://2captcha.com/2captcha-api#solving_normal_captcha).
+     * ### Solves a image-based captcha. 
+     * 
+     * [Read more about parameters for image captcha](https://2captcha.com/2captcha-api#solving_normal_captcha).
      * 
      * @param {{ body,
      *           phrase,
@@ -999,17 +1003,6 @@ export class Solver {
             throw new APIError(data.request)
         }
     }
-
-    /**
-     *     pageurl: string,
-    captchakey: string,
-    api_server?: string,
-    version?: string,
-    header_acao?: boolean,
-    pingback?: string,
-    proxy?: string,
-    proxytype?: string,
-     */
 
     /**
      * ### Solves Capy Puzzle captcha
