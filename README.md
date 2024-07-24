@@ -561,14 +561,14 @@ Examples of solving all supported captcha types are located in the [examples] di
 
 ## Get in touch
 
-<a href='mailto:support@2captcha.com' target='blank'><img src="https://github.com/user-attachments/assets/539df209-7c85-4fa5-84b4-fc22ab93fac7" width="80" height="30"></a>
-<a href='https://2captcha.com/support/tickets/new' target='blank'><img src="https://github.com/user-attachments/assets/be044db5-2e67-46c6-8c81-04b78bd99650" width="81" height="30"></a>
+<a href='mailto:support@2captcha.com' target='_blank'><img src="https://github.com/user-attachments/assets/539df209-7c85-4fa5-84b4-fc22ab93fac7" width="80" height="30"></a>
+<a href='https://2captcha.com/support/tickets/new' target='_blank'><img src="https://github.com/user-attachments/assets/be044db5-2e67-46c6-8c81-04b78bd99650" width="81" height="30"></a>
 
 ## Join the team 👪
 
 There are many ways to contribute, of which development is only one! Find your next job. Open positions: AI experts, scrapers, developers, technical support, and much more! 😍
 
-<a href='mailto:job@2captcha.com' target='blank'><img src="https://github.com/user-attachments/assets/36d23ef5-7866-4841-8e17-261cc8a4e033" width="80" height="30"></a>
+<a href='mailto:job@2captcha.com' target='_blank'><img src="https://github.com/user-attachments/assets/36d23ef5-7866-4841-8e17-261cc8a4e033" width="80" height="30"></a>
 
 <!-- Shared links -->
 [post options]: https://2captcha.com/2captcha-api#normal_post
