@@ -25,6 +25,7 @@ The easiest way to quickly integrate the [2Captcha](https://2captcha.com/) captc
     - [MTCaptcha](#mtcaptcha)
     - [Friendly Captcha](#friendly-captcha)
     - [Bounding Box Method](#bounding-box-method)
+    - [Grid](#grid)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -453,6 +454,28 @@ Use Bounding Box Method when you need to select objects on the image. To do this
 solver.boundingBox({ 
   image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAR4AAACwCAIAAAB...",
   textinstructions: "Circle all the cars in the image.",
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Grid
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#grid)</sup>
+
+This method allows to solve any captcha where image can be divided into equal parts like reCAPTCHA V2 or hCaptcha. A grid is applied above the image. And you receive the numbers clicked boxes.
+
+> [!IMPORTANT]  
+> You must to send instruction `imginstructions` or `textinstructions`.
+
+```js
+solver.grid({ 
+  body: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAR4AAACwCAIAAAB...",
+  textinstructions: "Select cars in the image"
 })
 .then((res) => {
     console.log(res);
