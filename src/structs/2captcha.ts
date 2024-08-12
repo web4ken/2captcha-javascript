@@ -225,8 +225,8 @@ export interface paramsBoundingBox {
 export interface paramsGrid {
     body: string,
     recaptcha: 1,
-    rows?: number
-    cols?: number
+    rows?: number,
+    cols?: number,
     minСlicks?: number,
     maxСlicks?: number,
     previousId?: string,
@@ -369,7 +369,7 @@ export class Solver {
      * @param {string} params.datas Value of `data-s` parameter you found on page. Curenttly applicable for Google Search and other Google services.
      * @param {string} params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
      * @param {string} params.action Value of `action` parameter you found on page.
-     * @param {string} params.enterprise `1` - defines that you're sending reCAPTCHA Enterpise.
+     * @param {number} params.enterprise `1` - defines that you're sending reCAPTCHA Enterpise.
      * @param {number} params.min_score The score needed for resolution reCAPTCHA V3. Currently it's almost impossible to get token with score higher than `0.3`
      * @param {string} params.version `v2` — defines that you're sending a reCAPTCHA V2. `v3` — defines that you're sending a reCAPTCHA V3.
      * @param {string} params.domain Domain used to load the captcha: `google.com` or `recaptcha.net`
@@ -666,7 +666,7 @@ export class Solver {
      *           lang,
      *           textinstructions,
      *           pingback }} params Extra properties to pass to 2captcha.
-     * @param {number} params.body Base64 image data for the captcha.
+     * @param {string} params.body Base64 image data for the captcha.
      * @param {number} params.phrase Captcha contains two or more words? `1` - Yes. `0` - No.
      * @param {number} params.regsense Captcha is case sensitive? `1` - Yes. `0` - No.
      * @param {number} params.numeric `0` - not specified. `1` - captcha contains only numbers. `2` - captcha contains only letters. `3` - captcha contains only numbers OR only letters. `4` - captcha MUST contain both numbers AND letters.
@@ -1304,9 +1304,9 @@ public async friendlyCaptcha(params: friendlyCaptcha): Promise<CaptchaAnswer> {
  * ### Bounding Box Method
  * 
  * @param {{ image, textinstructions, imginstructions }} params Parameters Bounding Box Method as an object.
- * @param {image} params.image 	Image containing data for markup. The image must be encoded in `Base64` format.
- * @param {textinstructions} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
- * @param {imginstructions} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
+ * @param {string} params.image 	Image containing data for markup. The image must be encoded in `Base64` format.
+ * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
+ * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
  * 
  * @example 
  * solver.boundingBox({
