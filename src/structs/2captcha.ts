@@ -12,7 +12,7 @@ const provider = getProviderData ()
 export interface paramsRecaptcha {
     pageurl: string,
     googlekey: string,
-    invisible?: boolean,
+    invisible?: 0 | 1,
     datas?: string,
     domain?: string,
     cookies?: string,
