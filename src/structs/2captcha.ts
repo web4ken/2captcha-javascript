@@ -338,7 +338,9 @@ export class Solver {
         try {
             data = JSON.parse(result)
             if (data.status == 1) {
-                return { data: data.request, id: id }
+                let dataJSON = { ...data, data: data.request, id: id}
+                delete dataJSON.request
+                return dataJSON
             }
         } catch {
             throw new APIError(result)
