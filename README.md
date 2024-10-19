@@ -42,6 +42,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [balance](#balance)
   - [Proxies](#proxies)
   - [Examples](#examples)
+  - [Examples using Puppeteer](#examples-using-puppeteer)
   - [Useful articles](#useful-articles)
 - [Get in touch](#get-in-touch)
 - [Join the team 👪](#join-the-team-)
@@ -550,6 +551,14 @@ solver.recaptcha({
 ## Examples
 
 Examples of solving all supported captcha types are located in the [examples] directory.
+
+## Examples using Puppeteer
+Also we have a separate repositories you can find examples of solving captcha using Puppeteer.
+At the moment we have implemented examples of bypassing Cloudflare Challenge page and reCAPTCHA.
+Links: 
+- [Cloudflare Bypassing Demo using Puppeteer](https://github.com/2captcha/cloudflare-demo)
+- [Solving reCAPTCHA V2 using Puppeteer and clicks](https://github.com/2captcha/puppeteer-recaptcha-solver-using-clicks)
+
 
 ## Useful articles
 * [How to bypass captcha using JavaScript](https://2captcha.com/blog/how-to-use-javascript-to-bypass-captcha#how-to-solve-and-bypass-a-captcha-with-javascript-using-npm-package-2captchacaptcha-solver)
