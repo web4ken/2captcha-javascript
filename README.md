@@ -36,6 +36,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Friendly Captcha](#friendly-captcha)
     - [Bounding Box Method](#bounding-box-method)
     - [Grid](#grid)
+    - [Text Captcha](#text-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -489,6 +490,25 @@ This method allows to solve any captcha where image can be divided into equal pa
 solver.grid({ 
   body: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAR4AAACwCAIAAAB...",
   textinstructions: "Select cars in the image"
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Text Captcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#solving_text_captcha)</sup>
+
+This method can be used to bypass a captcha that requires answering a question provided in clear text.
+
+```js
+solver.textCaptcha({
+  textcaptcha: "If tomorrow is Saturday, what day is today?",
+  lang: 'en'
 })
 .then((res) => {
     console.log(res);

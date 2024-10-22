@@ -238,6 +238,12 @@ export interface paramsGrid {
     pingback?: string,
 }
 
+export interface paramsTextcaptcha {
+    textcaptcha: string,
+    lang?: string,
+    pingback?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -1395,6 +1401,59 @@ public async grid(params: paramsGrid): Promise<CaptchaAnswer> {
         ...params,
         method: "base64",
         recaptcha: 1,
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify( payload ),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+/**
+ * ### Text Captcha method
+ * 
+ * Text Captcha is a type of captcha that is represented as text and doesn't contain images. Usually you have to answer a question to pass the verification. For example: "If tomorrow is Saturday, what day is today?".
+ * 
+ * @param {{ textcaptcha, lang, pingback}} params Parameters Text Captcha Method as an object.
+ * @param {string} params.textcaptcha Text Captcha is a type of captcha that is represented as text and doesn't contain images. Usually you have to answer a question to pass the verification.
+ * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
+ *
+ * @example
+ * solver.text({
+ *   textcaptcha: "If tomorrow is Saturday, what day is today?",
+ *   lang: 'en'
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async text(params: paramsTextcaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "textcaptcha")
+
+    params = await renameParams(params)
+
+    const payload = {
+        ...params,
         ...this.defaultPayload,
     }
 
