@@ -230,6 +230,7 @@ export interface paramsGrid {
     minСlicks?: number,
     maxСlicks?: number,
     previousId?: string,
+    imgType?: string,
     textinstructions?: string,
     imginstructions?: string,
     canSkip?: number,
@@ -1358,7 +1359,7 @@ public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
  * 
  * The method can be used to bypass tasks where a grid is applied to an image and you need to click on grid tiles, like reCAPTCHA or hCaptcha images.
  * 
- * @param {{ body, textinstructions, imginstructions, rows, cols, minСlicks, maxСlicks, previousId, canSkip, lang, pingback}} params Parameters Grid Method as an object.
+ * @param {{ body, textinstructions, imginstructions, rows, cols, minСlicks, maxСlicks, imgType, previousId, canSkip, lang, pingback}} params Parameters Grid Method as an object.
  * @param {string} params.body `Base64`- encoded captcha image.
  * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
  * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
@@ -1366,6 +1367,7 @@ public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
  * @param {number} params.cols Number of columns in grid captcdha.
  * @param {number} params.minСlicks The minimum number of tiles that must be selected. Can't be more than `rows` * `cols`.
  * @param {number} params.maxСlicks The maximum number of tiles that can be selected on the image.
+ * @param {string} params.imgType The image will be recognized using Computer Vision. Supported value options: `recaptcha`, `hcaptcha`, `funcaptcha`, `funcaptcha_compare`. [More info here](https://2captcha.com/2captcha-api#grid).
  * @param {string} params.previousId Id of your previous request with the same captcha challenge.
  * @param {number} params.canSkip Set the value to `1` only if it's possible that there's no images matching to the instruction. We'll provide a button "No matching images" to worker and you will receive `No_matching_images` as answer.
  * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).

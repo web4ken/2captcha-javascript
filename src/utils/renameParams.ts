@@ -20,7 +20,8 @@ export default function renameParams(params: any) {
     "minClicks" : "min_clicks",
     "maxClicks" : "max_clicks",
     "canSkip" : "can_no_answer",
-    "previousId" : "previousID"
+    "previousId" : "previousID",
+    "imgType" : "img_type"
   }
 
   for(let key in params) {

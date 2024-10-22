@@ -8,7 +8,7 @@ const imageInstructionsBase64 = fs.readFileSync("./media/recaptchaGridImginstruc
 
 solver.grid({
     body: imageBase64,
-    textinstructions: "Select all squares with stairs",
+    textinstructions: "select all squares with stairs if there are none, click skip",
     imginstructions: imageInstructionsBase64,
     cols: 4,
     rows: 4,
@@ -16,6 +16,7 @@ solver.grid({
     maxClicks: 6,
     lang: "en",
     canSkip: 1,
+    imgType: "recaptcha" /* More information about the `img_type` parameter can be found at: https://2captcha.com/2captcha-api#grid  */
     // pingback: '123.123.123.123' /* More info about pingback https://2captcha.com/setting/pingback */
     // previousId: '123456789'
   })  
