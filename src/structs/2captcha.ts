@@ -254,6 +254,17 @@ export interface paramsRotateCaptcha {
     imginstructions?: string
 }
 
+export interface paramsKeyCaptcha {
+    pageurl: string,
+    s_s_c_user_id: string,
+    s_s_c_session_id: string,
+    s_s_c_web_server_sign: string,
+    s_s_c_web_server_sign2: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -1611,6 +1622,71 @@ public async rotate(params: paramsRotateCaptcha): Promise<CaptchaAnswer> {
     }
 }
 
+
+/**
+* ### Solves a KeyCaptcha.
+* 
+* This method can be used to solve a KeyCaptcha. It is mostly used to bypass captchas that use KeyCaptcha technology.
+* [Read more about KeyCaptcha](https://2captcha.com/2captcha-api#solving_keycaptcha).
+* 
+* @param {{ pageurl, s_s_c_user_id, s_s_c_session_id, s_s_c_web_server_sign, s_s_c_web_server_sign2, pingback, proxy, proxytype }} params Parameters for solving KeyCaptcha as an object.
+* @param {string} params.pageurl The URL where the captcha is located.
+* @param {string} params.s_s_c_user_id The user ID provided by KeyCaptcha.
+* @param {string} params.s_s_c_session_id The session ID provided by KeyCaptcha.
+* @param {string} params.s_s_c_web_server_sign The web server sign provided by KeyCaptcha.
+* @param {string} params.s_s_c_web_server_sign2 The second web server sign provided by KeyCaptcha.
+* @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+* @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+* @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+* 
+* @returns {Promise<CaptchaAnswer>} The result from the solve.
+* @throws APIError
+* 
+* @example
+* solver.keyCaptcha({
+*   pageurl: "https://example.com/captcha",
+*   s_s_c_user_id: "12345",
+*   s_s_c_session_id: "session123",
+*   s_s_c_web_server_sign: "sign123",
+*   s_s_c_web_server_sign2: "sign456"
+* })
+* .then((res) => {
+*     console.log(res);
+* })
+* .catch((err) => {
+*     console.log(err);
+* })
+*/
+public async keyCaptcha(params: paramsKeyCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "keycaptcha")
+
+    const payload = {
+        ...params,
+        method: "keycaptcha",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
 
     /**
      * Reports a captcha as correctly solved.

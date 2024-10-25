@@ -1,6 +1,6 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
-"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha', 'canvas', 'rotatecaptcha']
+"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -24,6 +24,7 @@ const gridRequiredFields =        ['body']  // and textinstructions or imginstru
 const textCaptchaRequiredFields = ['textcaptcha']
 const canvasRequiredFields =      ['body'] // and textinstructions or imginstructions
 const rotateRequiredFields =      ['body'] 
+const keycaptchaRequiredFields =  ['pageurl', 's_s_c_user_id', 's_s_c_session_id', 's_s_c_web_server_sign', 's_s_c_web_server_sign2'] 
 
 /**
  * Getting required arguments for a captcha.
@@ -94,6 +95,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "rotatecaptcha":
       requiredFieldsArr = rotateRequiredFields
+      break;
+    case "keycaptcha":
+      requiredFieldsArr = keycaptchaRequiredFields
       break;
   }
   return requiredFieldsArr
