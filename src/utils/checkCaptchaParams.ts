@@ -1,6 +1,6 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
-"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha']
+"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha', 'canvas']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -22,6 +22,7 @@ const boundingBoxRequiredFields = ['image'] // and textinstructions or imginstru
 const friendlyCaptchaFields =     ['pageurl','sitekey']
 const gridRequiredFields =        ['body']  // and textinstructions or imginstructions
 const textCaptchaRequiredFields = ['textcaptcha']
+const canvasRequiredFields =      ['body'] // надо проверку, если какая нибудь инструкция текст\картинка
 
 /**
  * Getting required arguments for a captcha.
@@ -86,6 +87,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "textcaptcha":
       requiredFieldsArr = textCaptchaRequiredFields
+      break;
+    case "canvas":
+      requiredFieldsArr = canvasRequiredFields
       break;
   }
   return requiredFieldsArr

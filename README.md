@@ -37,6 +37,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Bounding Box Method](#bounding-box-method)
     - [Grid](#grid)
     - [Text Captcha](#text-captcha)
+    - [Canvas](#canvas)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -511,6 +512,26 @@ This method can be used to bypass a captcha that requires answering a question p
 solver.textCaptcha({
   textcaptcha: "If tomorrow is Saturday, what day is today?",
   lang: 'en'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Canvas
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#canvas)</sup>
+
+The canvas method can be used when you need to draw a line around an object on an image. Returns a set of points' coordinates to draw a polygon.
+
+```js
+solver.canvas({
+    body: 'iVBORw0KGgoAAAANSgAAAcIA...',
+    imginstructions: '/9j/4AAQSkZJRgABAQEA...',
+    textinstructions: 'Highlight the red CIRCLE'
 })
 .then((res) => {
     console.log(res);

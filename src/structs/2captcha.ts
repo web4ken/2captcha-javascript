@@ -224,7 +224,8 @@ export interface paramsBoundingBox {
 
 export interface paramsGrid {
     body: string,
-    recaptcha: 1,
+    recaptcha: number,
+    canvas?: number,
     rows?: number,
     cols?: number,
     minСlicks?: number,
@@ -1425,6 +1426,7 @@ public async grid(params: paramsGrid): Promise<CaptchaAnswer> {
         throw new APIError(data.request)
     }
 }
+
 /**
  * ### Text Captcha method
  * 
@@ -1454,6 +1456,67 @@ public async text(params: paramsTextcaptcha): Promise<CaptchaAnswer> {
 
     const payload = {
         ...params,
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify( payload ),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Canvas method
+ * 
+ * This method can be used to bypass tasks in which you need to circle an object or line in an image.
+ * 
+ * @param {{ body, textinstructions, imginstructions, canSkip, lang, pingback}} params Parameters Canvas as an object.
+ * @param {string} params.body `Base64`- encoded captcha image.
+ * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
+ * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
+ * @param {number} params.canSkip Set the value to `1` only if it's possible that there's no images matching to the instruction. We'll provide a button "No matching images" to worker and you will receive `No_matching_images` as answer.
+ * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
+ * 
+ * @example
+ * solver.canvas({
+ *   body: 'iVBORw0KGgoAAAANSgAAAcIA...',
+ *   imginstructions: '/9j/4AAQSkZJRgABAQEA...',
+ *   textinstructions: 'Highlight the red CIRCLE'
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async canvas(params: paramsGrid): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "canvas")
+
+    params = await renameParams(params)
+
+    const payload = {
+        ...params,
+        recaptcha: 1,
+        canvas: 1,
+        method: "base64",
         ...this.defaultPayload,
     }
 
