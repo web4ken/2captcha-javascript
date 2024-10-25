@@ -22,7 +22,7 @@ const boundingBoxRequiredFields = ['image'] // and textinstructions or imginstru
 const friendlyCaptchaFields =     ['pageurl','sitekey']
 const gridRequiredFields =        ['body']  // and textinstructions or imginstructions
 const textCaptchaRequiredFields = ['textcaptcha']
-const canvasRequiredFields =      ['body'] // надо проверку, если какая нибудь инструкция текст\картинка
+const canvasRequiredFields =      ['body'] // and textinstructions or imginstructions
 const rotateRequiredFields =      ['body'] 
 
 /**
@@ -127,21 +127,13 @@ export default function checkCaptchaParams(params: Object, method: string) {
     }
   })
 
-  if(method === "bounding_box") {
+  //The parameters `textinstructions` and `imginstructions` are mandatory for the methods `bounding_box`, `grid`, and `canvas`.
+  if(method === "bounding_box" || method === "grid" || method === "canvas") {
     if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
       isCorrectCaptchaParams = true
     } else {
       isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "bounding_box" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "bounding_box" method according to the code examples.`)
-    }
-  }
-
-  if(method === "grid") {
-    if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
-      isCorrectCaptchaParams = true
-    } else {
-      isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "Grid" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "Grid" method according to the code examples.`)
+      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "${method}" method. Please add field "textinstructions" or "imginstructions" to captcha parameters.`)
     }
   }
 
