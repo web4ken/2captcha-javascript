@@ -38,6 +38,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Grid](#grid)
     - [Text Captcha](#text-captcha)
     - [Canvas](#canvas)
+    - [Rotate](#rotate)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -532,6 +533,25 @@ solver.canvas({
     body: 'iVBORw0KGgoAAAANSgAAAcIA...',
     imginstructions: '/9j/4AAQSkZJRgABAQEA...',
     textinstructions: 'Highlight the red CIRCLE'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Rotate
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#solving_rotatecaptcha)</sup>
+
+This method can be used to solve a captcha that asks to rotate an object. It is mostly used to bypass FunCaptcha. Returns the rotation angle.
+
+```js
+solver.rotate({
+  body: imageBase64,
+  textinstructions: "Rotate the object to the correct position"
 })
 .then((res) => {
     console.log(res);

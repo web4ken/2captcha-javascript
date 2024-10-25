@@ -245,6 +245,15 @@ export interface paramsTextcaptcha {
     pingback?: string,
 }
 
+export interface paramsRotateCaptcha {
+    body: string,
+    angle?: number,
+    pingback?: string,
+    lang?: string,
+    textinstructions?: string,
+    imginstructions?: string
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -1541,6 +1550,67 @@ public async canvas(params: paramsGrid): Promise<CaptchaAnswer> {
         throw new APIError(data.request)
     }
 }
+
+/**
+ * ### Rotate method
+ * 
+ * This method can be used to solve a captcha that asks to rotate an object. It is mostly used to bypass FunCaptcha. Returns the rotation angle.
+ * 
+ * @param {{ body, angle, pingback, lang, textinstructions, imginstructions }} params Parameters for solving Rotate Captcha as an object.
+ * @param {string} params.body Base64-encoded image of the captcha that needs to be rotated.
+ * @param {number} params.angle Angle to which the captcha needs to be rotated to solve it correctly. Value between `0` to `360`.
+ * @param {string} params.textinstructions Optional param. Text instruction that will be shown to worker to help solve the captcha correctly.
+ * @param {string} params.imginstructions Optional param. Base64-encoded image instruction that will be shown to worker to help solve the captcha correctly.
+ * @param {string} params.lang Optional param. Language code for worker to use while solving the captcha.
+ * @param {string} params.pingback Optional param. URL for pingback (callback) response when captcha is solved.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ * 
+ * @example
+ * solver.rotate({
+ *   body: "iVBORw0KGgoAAAANSUhEUgAAAcIA...",
+ *   angle: 15,
+ *   textinstructions: "Rotate the object to the correct position"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async rotate(params: paramsRotateCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "rotatecaptcha")
+
+    const payload = {
+        ...params,
+        method: "rotatecaptcha",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}  
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
 
     /**
      * Reports a captcha as correctly solved.
