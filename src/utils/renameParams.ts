@@ -24,7 +24,7 @@ export default function renameParams(params: any) {
     "previousId" : "previousID",
     "imgType" : "img_type",
 
-    // KeyKaptcha
+    // KeyCaptcha
     "userId" : "s_s_c_user_id",
     "sessionId":"s_s_c_session_id",
     "webServerSign":"s_s_c_web_server_sign",
