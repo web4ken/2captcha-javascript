@@ -15,13 +15,20 @@ export default function renameParams(params: any) {
   * Captcha parameters that need to be renamed before sent to the API.
   */
   const replaceParams: any = {
+    // Grid
     "cols" : "recaptchacols",
     "rows" : "recaptcharows",
     "minClicks" : "min_clicks",
     "maxClicks" : "max_clicks",
     "canSkip" : "can_no_answer",
     "previousId" : "previousID",
-    "imgType" : "img_type"
+    "imgType" : "img_type",
+
+    // KeyKaptcha
+    "userId" : "s_s_c_user_id",
+    "sessionId":"s_s_c_session_id",
+    "webServerSign":"s_s_c_web_server_sign",
+    "webServerSign2":"s_s_c_web_server_sign2",
   }
 
   for(let key in params) {
