@@ -1,6 +1,6 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
-"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent']
+"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid', 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -26,7 +26,8 @@ const canvasRequiredFields =      ['body'] // and textinstructions or imginstruc
 const rotateRequiredFields =      ['body'] 
 const keycaptchaRequiredFields =  ['pageurl', 's_s_c_user_id', 's_s_c_session_id', 's_s_c_web_server_sign', 's_s_c_web_server_sign2'] 
 const cutcaptchaRequiredFields =  ['pageurl', 'misery_key', 'api_key'] 
-const tencentRequiredFields =     ['pageurl', 'app_id'] 
+const tencentRequiredFields =     ['pageurl', 'app_id']
+const atbCaptchaRequiredFields =  ['pageurl', 'app_id', 'api_server']
 
 /**
  * Getting required arguments for a captcha.
@@ -106,6 +107,9 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       break;
     case "tencent":
       requiredFieldsArr = tencentRequiredFields
+      break;
+    case "atb_captcha":
+      requiredFieldsArr = atbCaptchaRequiredFields
       break;
   }
   return requiredFieldsArr

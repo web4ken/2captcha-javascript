@@ -42,6 +42,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [KeyCaptcha](#keycaptcha)
     - [Cutcaptcha](#cutcaptcha)
     - [Tencent](#tencent)
+    - [atbCAPTCHA](#atbcaptcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -616,6 +617,26 @@ Use this method to solve Tencent captcha. Returns the response in JSON.
 solver.tencent({
     pageurl: "https://mysite.com/page/with/tencent",
     appId: "189956587"  
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### atbCAPTCHA
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#atb-captcha)</sup>
+
+Use this method to solve atbCAPTCHA challenge. Returns a token to bypass the captcha.
+
+```js
+solver.atbCaptcha({
+    pageurl: "https://mysite.com/page/with/atbCAPTCHA",
+    appId: "af25e409b33d722a95e56a230ff8771c",
+    apiServer: "https://cap.aisecurius.com"
 })
 .then((res) => {
 console.log(res);

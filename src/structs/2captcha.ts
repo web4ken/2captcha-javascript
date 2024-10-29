@@ -282,6 +282,15 @@ export interface paramsTencent {
     proxytype?: string
 }
 
+export interface paramsAtbCaptcha{
+    pageurl: string,
+    appId: string,
+    apiServer: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -1755,6 +1764,68 @@ public async tencent(params: paramsTencent): Promise<CaptchaAnswer> {
     const payload = {
         ...params,
         method: "tencent",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+* ### Solves a atbCAPTCHA.
+* 
+* Use this method to solve atbCAPTCHA captcha. Returns a token.
+* [Read more about atbCAPTCHA](https://2captcha.com/2captcha-api#atb-captcha).
+* 
+* @param {{ pageurl, appId, apiServer, pingback, proxy, proxytype }} params Parameters for solving atbCAPTCHA as an object.
+* @param {string} params.pageurl The URL where the captcha is located.
+* @param {string} params.appId 	The value of `appId` parameter in the website source code.
+* @param {string} params.apiServer The value of `apiServer` parameter in the website source code.
+* @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+* @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+* @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+* 
+* @returns {Promise<CaptchaAnswer>} The result from the solve.
+* @throws APIError
+* 
+* @example
+* solver.atbCaptcha({
+*   pageurl: "https://mysite.com/page/with/tencent",
+*   appId: "af25e409b33d722a95e56a230ff8771c",
+    apiServer: "https://cap.aisecurius.com"
+* })
+* .then((res) => {
+*     console.log(res);
+* })
+* .catch((err) => {
+*     console.log(err);
+* })
+*/
+public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
+    params = await renameParams(params)
+    checkCaptchaParams(params, "atb_captcha")
+
+    const payload = {
+        ...params,
+        method: "atb_captcha",
         ...this.defaultPayload,
     }
 

@@ -36,6 +36,9 @@ export default function renameParams(params: any) {
 
     // Tencent
     "appId": "app_id",
+
+    // atbCAPTCHA
+    "apiServer": "api_server",
   }
 
   for(let key in params) {
