@@ -291,6 +291,12 @@ export interface paramsAtbCaptcha{
     proxytype?: string
 }
 
+export interface paramsAudioCaptcha {
+    body: string,
+    lang: string,
+    pingback?: string,
+}
+
 /**
  * An object containing properties of the captcha solution.
  * @typedef {Object} CaptchaAnswer
@@ -1835,6 +1841,63 @@ public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
         method: "post",
         headers: {'Content-Type': 'application/json'}
     })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+
+/**
+ * ### Method for solving Audio captcha.
+ * 
+ * Use the following method to bypass an audio captcha (`mp3` formats only). You must provide the language as `lang = 'en'`. Supported languages are "en", "ru", "de", "el", "pt", "fr".
+ * [Read more about audio captcha parameters](https://2captcha.com/2captcha-api#audio).
+ * 
+ * @param {{ body, lang, pingback }} params Object containing parameters for the audio captcha.
+ * @param {string} params.body Base64 encoded audio file in `mp3` format. Max file size: 1 MB.
+ * @param {string} params.lang The language of audio record. Supported languages are: "en", "ru", "de", "el", "pt", "fr".
+ * @param {string} [params.pingback] URL for pingback response once captcha is solved.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from solving the audio captcha.
+ * @throws APIError
+ * @example
+ * solver.audio({
+ *   body: "SUQzBAAAAAAAHFRTU0UAAAA...",
+ *   lang: "en"
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ * })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async audio(params: paramsAudioCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "audio")
+
+    const payload = {
+        ...params,
+        method: "audio",
+        ...this.defaultPayload
+    }
+
+    const response = await fetch(this.in, {
+        method: 'post',
+        body: JSON.stringify(payload),
+        headers: {'Content-Type': 'application/json'}
+    })
+
     const result = await response.text()
 
     let data;

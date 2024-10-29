@@ -43,6 +43,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Cutcaptcha](#cutcaptcha)
     - [Tencent](#tencent)
     - [atbCAPTCHA](#atbcaptcha)
+    - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -643,6 +644,25 @@ console.log(res);
 })
 .catch((err) => {
 console.log(err);
+})
+```
+
+### Audio Captcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#audio-recognition)</sup>
+
+Use the following method to bypass an audio captcha (`mp3` formats only). You must provide the language as `lang = 'en'`. Supported languages are "en", "ru", "de", "el", "pt", "fr".
+
+```js
+solver.audio({
+  body: "SUQzBAAAAAAAHFRTU0UAAAA...",
+  lang: "en"
+})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
 })
 ```
 
