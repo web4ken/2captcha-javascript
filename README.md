@@ -40,6 +40,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Canvas](#canvas)
     - [Rotate](#rotate)
     - [KeyCaptcha](#keycaptcha)
+    - [Cutcaptcha](#cutcaptcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -575,6 +576,26 @@ solver.keyCaptcha({
     sessionId: '0917788cad24ad3a69813c4fcd556061',
     webServerSign: '02f7f9669f1269595c4c69bcd4a3c52e',
     webServerSign2: 'd888700f6f324ec0f32b44c32c50bde1'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Cutcaptcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#cutcaptcha)</sup>
+
+Use this method to solve Cutcaptcha. Returns the response in JSON.
+
+```js
+solver.cutCaptcha({
+    pageurl: "https://mysite.com/page/with/cutcaptcha",
+    misery_key: "098e6a849af406142e3150dbf4e6d0538db2b51f", 
+    api_key: "SAs61IAI",
 })
 .then((res) => {
 console.log(res);

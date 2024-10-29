@@ -29,6 +29,10 @@ export default function renameParams(params: any) {
     "sessionId":"s_s_c_session_id",
     "webServerSign":"s_s_c_web_server_sign",
     "webServerSign2":"s_s_c_web_server_sign2",
+
+    // Cutcaptcha
+    "miseryKey":"misery_key",
+    "apiKey":"api_key",
   }
 
   for(let key in params) {
