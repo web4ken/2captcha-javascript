@@ -33,6 +33,9 @@ export default function renameParams(params: any) {
     // Cutcaptcha
     "miseryKey":"misery_key",
     "apiKey":"api_key",
+
+    // Tencent
+    "appId": "app_id",
   }
 
   for(let key in params) {

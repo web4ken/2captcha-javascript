@@ -41,6 +41,7 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Rotate](#rotate)
     - [KeyCaptcha](#keycaptcha)
     - [Cutcaptcha](#cutcaptcha)
+    - [Tencent](#tencent)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -596,6 +597,25 @@ solver.cutCaptcha({
     pageurl: "https://mysite.com/page/with/cutcaptcha",
     misery_key: "098e6a849af406142e3150dbf4e6d0538db2b51f", 
     api_key: "SAs61IAI",
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Tencent
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#tencent)</sup>
+
+Use this method to solve Tencent captcha. Returns the response in JSON.
+
+```js
+solver.tencent({
+    pageurl: "https://mysite.com/page/with/tencent",
+    appId: "189956587"  
 })
 .then((res) => {
 console.log(res);
