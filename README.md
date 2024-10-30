@@ -9,15 +9,15 @@
 
 # JavaScript module for 2Captcha API (captcha solver)
 
-The easiest way to quickly integrate the [2Captcha](https://2captcha.com/) captcha-solving service into your code and automate the solving of any type of captcha.
-Examples of API requests for different captcha types are available on the [JavaScript captcha solver](https://2captcha.com/lang/javascript) page.
+The easiest way to quickly integrate the [2Captcha] captcha-solving service into your code and automate the solving of any type of captcha.
+Examples of API requests for different captcha types are available on the [JavaScript captcha solver] page.
 
 - [JavaScript module for 2Captcha API (captcha solver)](#javascript-module-for-2captcha-api-captcha-solver)
   - [Installation](#installation)
   - [Configuration](#configuration)
     - [TwoCaptcha instance options](#twocaptcha-instance-options)
   - [Solve captcha](#solve-captcha)
-    - [Image captchas](#image-captcha)
+    - [Image Сaptcha](#image-captcha)
     - [reCAPTCHA v2](#recaptcha-v2)
     - [reCAPTCHA v3](#recaptcha-v3)
     - [hCaptcha](#hcaptcha)
@@ -51,7 +51,7 @@ Examples of API requests for different captcha types are available on the [JavaS
   - [Proxies](#proxies)
   - [Examples](#examples)
   - [Examples using Puppeteer](#examples-using-puppeteer)
-  - [Useful articles](#useful-articles)
+- [Useful articles](#useful-articles)
 - [Get in touch](#get-in-touch)
 - [Join the team 👪](#join-the-team-)
 - [License](#license)
@@ -119,7 +119,6 @@ Below you can find basic examples for every captcha type, check out the code bel
 To bypass a normal captcha (distorted text on an image) use the following method. This method can also be used to recognize any text in an image.
 
 ```js
-// Read from a file as base64 text
 const imageBase64 = fs.readFileSync("./examples/media/imageCaptcha_6e584.png", "base64")
 
 solver.imageCaptcha({
@@ -129,7 +128,6 @@ solver.imageCaptcha({
     max_len: 5
 })
 .then((res) => {
-  // Logs the image text
   console.log(res);
 })
 .catch((err) => {
@@ -726,6 +724,7 @@ At the moment we have implemented examples of bypassing Cloudflare Challenge pag
 Links: 
 - [Cloudflare Bypassing Demo using Puppeteer](https://github.com/2captcha/cloudflare-demo)
 - [Solving reCAPTCHA V2 using Puppeteer and clicks](https://github.com/2captcha/puppeteer-recaptcha-solver-using-clicks)
+- [Custom Slider Captcha Demo](https://github.com/2captcha/custom-slider-demo)
 
 
 ## Useful articles
@@ -733,8 +732,6 @@ Links:
 * [Bypassing Cloudflare Challenge with Puppeteer and 2Captcha](https://2captcha.com/blog/bypassing-cloudflare-challenge-with-puppeteer-and-2captcha)
 * [How to bypass Geetest v4 CAPTCHA](https://2captcha.com/blog/geetest-v4-support)
 * [Automatic reCAPTCHA V3 resolution - a tutorial for developers and customers](https://2captcha.com/blog/recaptcha-v3-automatic-resolution)
-* [Custom Slider Captcha Demo](https://github.com/2captcha/custom-slider-demo)
-* [Cloudflare Challenge page bypass code example](https://github.com/2captcha/cloudflare-demo)
 
 ## Get in touch
 
@@ -756,6 +753,8 @@ The code in this repository is licensed under the MIT License. See the [LICENSE]
 The graphics and trademarks included in this repository are not covered by the MIT License. Please contact <a href="mailto:support@2captcha.com">support</a> for permissions regarding the use of these materials.
 
 <!-- Shared links -->
+[2Captcha]: https://2captcha.com/
+[JavaScript captcha solver]: https://2captcha.com/lang/javascript
 [post options]: https://2captcha.com/2captcha-api#normal_post
 [list of supported languages]: https://2captcha.com/2captcha-api#language
 [Buy residential proxies]: https://2captcha.com/proxy/residential-proxies
