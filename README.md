@@ -17,7 +17,7 @@ Examples of API requests for different captcha types are available on the [JavaS
   - [Configuration](#configuration)
     - [TwoCaptcha instance options](#twocaptcha-instance-options)
   - [Solve captcha](#solve-captcha)
-    - [Image Сaptcha](#image-captcha)
+    - [Image Captcha](#image-captcha)
     - [reCAPTCHA v2](#recaptcha-v2)
     - [reCAPTCHA v3](#recaptcha-v3)
     - [hCaptcha](#hcaptcha)

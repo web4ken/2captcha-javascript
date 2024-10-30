@@ -5,7 +5,7 @@ const solver = new TwoCaptcha.Solver(APIKEY);
 
 solver.tencent({
     pageurl: "https://mysite.com/page/with/tencent",
-    appId: "189956587"    
+    appId: "189956587"
 })
 .then((res) => {
     console.log(res);
