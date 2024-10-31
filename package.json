@@ -41,7 +41,15 @@
     "CyberSiARA",
     "MTCaptcha",
     "Bounding Box Method",
-    "Friendly Captcha"
+    "Friendly Captcha",
+    "Text Captcha",
+    "Canvas",
+    "Rotate",
+    "KeyCaptcha",
+    "Cutcaptcha",
+    "Tencent",
+    "atbCAPTCHA",
+    "Audio Recognition"
   ],
   "scripts": {
     "build": "tsc && node ./dist/index.js",
