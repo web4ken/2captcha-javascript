@@ -9,15 +9,15 @@
 
 # JavaScript module for 2Captcha API (captcha solver)
 
-The easiest way to quickly integrate the [2Captcha](https://2captcha.com/) captcha-solving service into your code and automate the solving of any type of captcha.
-Examples of API requests for different captcha types are available on the [JavaScript captcha solver](https://2captcha.com/lang/javascript) page.
+The easiest way to quickly integrate the [2Captcha] captcha-solving service into your code and automate the solving of any type of captcha.
+Examples of API requests for different captcha types are available on the [JavaScript captcha solver] page.
 
 - [JavaScript module for 2Captcha API (captcha solver)](#javascript-module-for-2captcha-api-captcha-solver)
   - [Installation](#installation)
   - [Configuration](#configuration)
     - [TwoCaptcha instance options](#twocaptcha-instance-options)
   - [Solve captcha](#solve-captcha)
-    - [Image captchas](#image-captcha)
+    - [Image Captcha](#image-captcha)
     - [reCAPTCHA v2](#recaptcha-v2)
     - [reCAPTCHA v3](#recaptcha-v3)
     - [hCaptcha](#hcaptcha)
@@ -36,6 +36,14 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Friendly Captcha](#friendly-captcha)
     - [Bounding Box Method](#bounding-box-method)
     - [Grid](#grid)
+    - [Text Captcha](#text-captcha)
+    - [Canvas](#canvas)
+    - [Rotate](#rotate)
+    - [KeyCaptcha](#keycaptcha)
+    - [Cutcaptcha](#cutcaptcha)
+    - [Tencent](#tencent)
+    - [atbCAPTCHA](#atbcaptcha)
+    - [Audio Captcha](#audio-captcha)
   - [Other methods](#other-methods)
     - [goodReport](#goodreport)
     - [badReport](#badreport)
@@ -43,9 +51,11 @@ Examples of API requests for different captcha types are available on the [JavaS
   - [Proxies](#proxies)
   - [Examples](#examples)
   - [Examples using Puppeteer](#examples-using-puppeteer)
-  - [Useful articles](#useful-articles)
+- [Useful articles](#useful-articles)
 - [Get in touch](#get-in-touch)
 - [Join the team 👪](#join-the-team-)
+- [License](#license)
+  - [Graphics and Trademarks](#graphics-and-trademarks)
 
 
 ## Installation
@@ -109,7 +119,6 @@ Below you can find basic examples for every captcha type, check out the code bel
 To bypass a normal captcha (distorted text on an image) use the following method. This method can also be used to recognize any text in an image.
 
 ```js
-// Read from a file as base64 text
 const imageBase64 = fs.readFileSync("./examples/media/imageCaptcha_6e584.png", "base64")
 
 solver.imageCaptcha({
@@ -119,7 +128,6 @@ solver.imageCaptcha({
     max_len: 5
 })
 .then((res) => {
-  // Logs the image text
   console.log(res);
 })
 .catch((err) => {
@@ -498,6 +506,164 @@ solver.grid({
 })
 ```
 
+### Text Captcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#solving_text_captcha)</sup>
+
+This method can be used to bypass a captcha that requires answering a question provided in clear text.
+
+```js
+solver.textCaptcha({
+  textcaptcha: "If tomorrow is Saturday, what day is today?",
+  lang: 'en'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Canvas
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#canvas)</sup>
+
+The canvas method can be used when you need to draw a line around an object on an image. Returns a set of points' coordinates to draw a polygon.
+
+```js
+solver.canvas({
+    body: 'iVBORw0KGgoAAAANSgAAAcIA...',
+    imginstructions: '/9j/4AAQSkZJRgABAQEA...',
+    textinstructions: 'Highlight the red CIRCLE'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Rotate
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#solving_rotatecaptcha)</sup>
+
+This method can be used to solve a captcha that asks to rotate an object. It is mostly used to bypass FunCaptcha. Returns the rotation angle.
+
+```js
+solver.rotate({
+  body: imageBase64,
+  textinstructions: "Rotate the object to the correct position"
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### KeyCaptcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#solving_keycaptcha)</sup>
+
+Token-based method to solve KeyCaptcha.
+
+```js
+solver.keyCaptcha({
+    pageurl: "https://2captcha.com/demo/keycaptcha",
+    userId: '184015',
+    sessionId: '0917788cad24ad3a69813c4fcd556061',
+    webServerSign: '02f7f9669f1269595c4c69bcd4a3c52e',
+    webServerSign2: 'd888700f6f324ec0f32b44c32c50bde1'
+})
+.then((res) => {
+    console.log(res);
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+### Cutcaptcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#cutcaptcha)</sup>
+
+Use this method to solve Cutcaptcha. Returns the response in JSON.
+
+```js
+solver.cutCaptcha({
+    pageurl: "https://mysite.com/page/with/cutcaptcha",
+    misery_key: "098e6a849af406142e3150dbf4e6d0538db2b51f", 
+    api_key: "SAs61IAI",
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Tencent
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#tencent)</sup>
+
+Use this method to solve Tencent captcha. Returns the response in JSON.
+
+```js
+solver.tencent({
+    pageurl: "https://mysite.com/page/with/tencent",
+    appId: "189956587"  
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### atbCAPTCHA
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#atb-captcha)</sup>
+
+Use this method to solve atbCAPTCHA challenge. Returns a token to bypass the captcha.
+
+```js
+solver.atbCaptcha({
+    pageurl: "https://mysite.com/page/with/atbCAPTCHA",
+    appId: "af25e409b33d722a95e56a230ff8771c",
+    apiServer: "https://cap.aisecurius.com"
+})
+.then((res) => {
+console.log(res);
+})
+.catch((err) => {
+console.log(err);
+})
+```
+
+### Audio Captcha
+
+<sup>[API method description.](https://2captcha.com/2captcha-api#audio-recognition)</sup>
+
+Use the following method to bypass an audio captcha (`mp3` formats only). You must provide the language as `lang = 'en'`. Supported languages are "en", "ru", "de", "el", "pt", "fr".
+
+```js
+solver.audio({
+  body: "SUQzBAAAAAAAHFRTU0UAAAA...",
+  lang: "en"
+})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
+})
+```
+
 ## Other methods
 
 ### goodReport
@@ -558,6 +724,7 @@ At the moment we have implemented examples of bypassing Cloudflare Challenge pag
 Links: 
 - [Cloudflare Bypassing Demo using Puppeteer](https://github.com/2captcha/cloudflare-demo)
 - [Solving reCAPTCHA V2 using Puppeteer and clicks](https://github.com/2captcha/puppeteer-recaptcha-solver-using-clicks)
+- [Custom Slider Captcha Demo](https://github.com/2captcha/custom-slider-demo)
 
 
 ## Useful articles
@@ -565,8 +732,6 @@ Links:
 * [Bypassing Cloudflare Challenge with Puppeteer and 2Captcha](https://2captcha.com/blog/bypassing-cloudflare-challenge-with-puppeteer-and-2captcha)
 * [How to bypass Geetest v4 CAPTCHA](https://2captcha.com/blog/geetest-v4-support)
 * [Automatic reCAPTCHA V3 resolution - a tutorial for developers and customers](https://2captcha.com/blog/recaptcha-v3-automatic-resolution)
-* [Custom Slider Captcha Demo](https://github.com/2captcha/custom-slider-demo)
-* [Cloudflare Challenge page bypass code example](https://github.com/2captcha/cloudflare-demo)
 
 ## Get in touch
 
@@ -579,7 +744,17 @@ There are many ways to contribute, of which development is only one! Find your n
 
 <a href="mailto:job@2captcha.com"><img src="https://github.com/user-attachments/assets/36d23ef5-7866-4841-8e17-261cc8a4e033" width="80" height="30"></a>
 
+## License
+
+The code in this repository is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+
+### Graphics and Trademarks
+
+The graphics and trademarks included in this repository are not covered by the MIT License. Please contact <a href="mailto:support@2captcha.com">support</a> for permissions regarding the use of these materials.
+
 <!-- Shared links -->
+[2Captcha]: https://2captcha.com/
+[JavaScript captcha solver]: https://2captcha.com/lang/javascript
 [post options]: https://2captcha.com/2captcha-api#normal_post
 [list of supported languages]: https://2captcha.com/2captcha-api#language
 [Buy residential proxies]: https://2captcha.com/proxy/residential-proxies

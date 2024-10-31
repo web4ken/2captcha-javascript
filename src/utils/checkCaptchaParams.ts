@@ -1,6 +1,7 @@
 // Captcha methods for which parameter checking is available
 const supportedMethods = ["userrecaptcha", "hcaptcha", "geetest", "geetest_v4","yandex","funcaptcha","lemin","amazon_waf",
-"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid']
+"turnstile", "base64", "capy","datadome", "cybersiara", "mt_captcha", "bounding_box", 'friendly_captcha', 'grid',
+ 'textcaptcha', 'canvas', 'rotatecaptcha', 'keycaptcha', 'cutcaptcha', 'tencent', 'atb_captcha', 'audio']
 
 // Names of required fields that must be contained in the parameters captcha
 const recaptchaRequiredFields =   ['pageurl','googlekey']
@@ -16,11 +17,19 @@ const turnstileRequiredFields =   ['pageurl','sitekey']
 const base64RequiredFields =      ['body'] 
 const capyPuzzleRequiredFields =  ['captchakey']
 const dataDomeRequiredFields =    ['pageurl', 'captcha_url', 'userAgent', 'proxy', 'proxytype']
-const сyberSiARARequiredFields =  ['pageurl', 'master_url_id', 'userAgent']
-const mtСaptchaRequiredFields =   ['pageurl', 'sitekey']
+const cyberSiARARequiredFields =  ['pageurl', 'master_url_id', 'userAgent']
+const mtCaptchaRequiredFields =   ['pageurl', 'sitekey']
 const boundingBoxRequiredFields = ['image'] // and textinstructions or imginstructions
 const friendlyCaptchaFields =     ['pageurl','sitekey']
 const gridRequiredFields =        ['body']  // and textinstructions or imginstructions
+const textCaptchaRequiredFields = ['textcaptcha']
+const canvasRequiredFields =      ['body'] // and textinstructions or imginstructions
+const rotateRequiredFields =      ['body'] 
+const keycaptchaRequiredFields =  ['pageurl', 's_s_c_user_id', 's_s_c_session_id', 's_s_c_web_server_sign', 's_s_c_web_server_sign2'] 
+const cutcaptchaRequiredFields =  ['pageurl', 'misery_key', 'api_key'] 
+const tencentRequiredFields =     ['pageurl', 'app_id']
+const atbCaptchaRequiredFields =  ['pageurl', 'app_id', 'api_server']
+const audioRequiredFields =       ['body', 'lang']
 
 /**
  * Getting required arguments for a captcha.
@@ -72,10 +81,10 @@ const getRequiredFildsArr = (method: string):Array<string> => {
       requiredFieldsArr = dataDomeRequiredFields
       break;
     case "cybersiara":
-      requiredFieldsArr = сyberSiARARequiredFields
+      requiredFieldsArr = cyberSiARARequiredFields
       break;
     case "mt_captcha":
-      requiredFieldsArr = mtСaptchaRequiredFields
+      requiredFieldsArr = mtCaptchaRequiredFields
       break;
     case "bounding_box":
       requiredFieldsArr = boundingBoxRequiredFields
@@ -83,11 +92,43 @@ const getRequiredFildsArr = (method: string):Array<string> => {
     case "friendly_captcha":
       requiredFieldsArr = friendlyCaptchaFields
       break;
+    case "textcaptcha":
+      requiredFieldsArr = textCaptchaRequiredFields
+      break;
+    case "canvas":
+      requiredFieldsArr = canvasRequiredFields
+      break;
+    case "rotatecaptcha":
+      requiredFieldsArr = rotateRequiredFields
+      break;
+    case "keycaptcha":
+      requiredFieldsArr = keycaptchaRequiredFields
+      break;
+    case "cutcaptcha":
+      requiredFieldsArr = cutcaptchaRequiredFields
+      break;
+    case "tencent":
+      requiredFieldsArr = tencentRequiredFields
+      break;
+    case "atb_captcha":
+      requiredFieldsArr = atbCaptchaRequiredFields
+      break;
+    case "audio":
+      requiredFieldsArr = audioRequiredFields
+      break;
   }
   return requiredFieldsArr
 }
 
 /**
+ * ### Captcha Required Parameters Check.
+ *
+ * Checking required captcha parameters before sending.
+ * This function checks for required fields in the provided captcha parameters.
+ * Throws an error if the specified method is not supported or if required fields are missing.
+ * 
+ * Note: The `checkCaptchaParams()` function should be called after `renameParams()`, if function `renameParams()` is used.
+ *
  * @param { Object } params Captcha parameters that need to be checked.
  * @returns true | false | Error
  * @example
@@ -115,21 +156,13 @@ export default function checkCaptchaParams(params: Object, method: string) {
     }
   })
 
-  if(method === "bounding_box") {
+  //The parameters `textinstructions` and `imginstructions` are mandatory for the methods `bounding_box`, `grid`, and `canvas`.
+  if(method === "bounding_box" || method === "grid" || method === "canvas") {
     if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
       isCorrectCaptchaParams = true
     } else {
       isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "bounding_box" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "bounding_box" method according to the code examples.`)
-    }
-  }
-
-  if(method === "grid") {
-    if(params.hasOwnProperty('textinstructions') || params.hasOwnProperty('imginstructions')) {
-      isCorrectCaptchaParams = true
-    } else {
-      isCorrectCaptchaParams = false
-      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "Grid" method. Please add field "textinstructions" or "imginstructions" in object and try again.\nPlease correct your code for the "Grid" method according to the code examples.`)
+      throw new Error(`Error when check params captcha.\nNot found "textinstructions" or "imginstructions" field in the Object. One of this field is required for "${method}" method. Please add field "textinstructions" or "imginstructions" to captcha parameters.`)
     }
   }
 

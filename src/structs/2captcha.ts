@@ -43,7 +43,6 @@ export interface paramsHCaptcha {
     domain?: string
 }
 
-// FixMe:data[key] - how to send this parameter
 export interface paramsFunCaptcha {
     publickey: string,
     pageurl: string,
@@ -84,18 +83,6 @@ export interface paramsGeetest {
     userAgent?: string
 }
 
-/**
- * Interface for yandexSmart captcha
- * 
- * @typedef {object} yandexSmart
- * @property {string} pageurl URL of the page where the captcha is located
- * @property {string} sitekey The `sitekey` value you found on the captcha page
- * @property {string} pingback
- * @property {string} proxy Format: `login:password@123.123.123.123:3128`. You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
- * @property {string} proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
- * @property {string} userAgent Your `userAgent` that will be passed to our worker and used to solve the captcha.
- * 
- */
 export interface yandexSmart {
     pageurl: string,
     sitekey: string,
@@ -105,18 +92,6 @@ export interface yandexSmart {
     userAgent?: string
 }
 
-/**
- * Interface for GeeTest V4 captcha
- * 
- * @typedef {object} paramsGeeTestV4
- * @property {string} pageurl Required parameter. URL of the page where the captcha is located
- * @property {string} captcha_id Required parameter. Value of `captcha_id` parameter you found on target website.
- * @property {string} pingback An optional param. [More info here](https://2captcha.com/2captcha-api#pingback).
- * @property {string} proxy An optional param. Format: `login:password@123.123.123.123:3128`
- * @property {string} proxytype An optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
- * @property {string} userAgent An optional param. Your `userAgent` that will be passed to our worker and used to solve the captcha.
- * 
- */
 export interface paramsGeeTestV4 {
     pageurl: string,
     captcha_id: string,
@@ -208,6 +183,15 @@ export interface paramsMTCaptcha {
     proxytype?: string,
 }
 
+export interface paramsCutcaptcha {
+    pageurl: string,
+    miseryKey: string,
+    apiKey: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
 export interface friendlyCaptcha {
     pageurl: string,
     sitekey: string,
@@ -224,16 +208,67 @@ export interface paramsBoundingBox {
 
 export interface paramsGrid {
     body: string,
-    recaptcha: 1,
+    recaptcha: number,
+    canvas?: number,
     rows?: number,
     cols?: number,
-    minСlicks?: number,
-    maxСlicks?: number,
+    minClicks?: number,
+    maxClicks?: number,
     previousId?: string,
+    imgType?: string,
     textinstructions?: string,
     imginstructions?: string,
     canSkip?: number,
     lang?: string,
+    pingback?: string,
+}
+
+export interface paramsTextcaptcha {
+    textcaptcha: string,
+    lang?: string,
+    pingback?: string,
+}
+
+export interface paramsRotateCaptcha {
+    body: string,
+    angle?: number,
+    pingback?: string,
+    lang?: string,
+    textinstructions?: string,
+    imginstructions?: string
+}
+
+export interface paramsKeyCaptcha {
+    pageurl: string,
+    userId: string,
+    sessionId: string,
+    webServerSign: string,
+    webServerSign2: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
+export interface paramsTencent {
+    pageurl: string,
+    appId: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
+export interface paramsAtbCaptcha{
+    pageurl: string,
+    appId: string,
+    apiServer: string,
+    pingback?: string,
+    proxy?: string,
+    proxytype?: string
+}
+
+export interface paramsAudioCaptcha {
+    body: string,
+    lang: string,
     pingback?: string,
 }
 
@@ -900,7 +935,7 @@ export class Solver {
      * 
      * [Read more about Cloudflare Turnstile captcha](https://2captcha.com/2captcha-api#turnstile).
      * 
-     * @param {{ pageurl, sitekey, action, data, pingback, proxy, proxytype}} params The `сloudflareTurnstile` method takes arguments as an object. Thus, the `pageurl`, `sitekey` fields in the passed object are mandatory.
+     * @param {{ pageurl, sitekey, action, data, pingback, proxy, proxytype}} params The `cloudflareTurnstile` method takes arguments as an object. Thus, the `pageurl`, `sitekey` fields in the passed object are mandatory.
      * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
      * @param {string} params.sitekey Is a value of `sitekey` parameter in the page source.
      * @param {string} params.action Value of optional `action` parameter you found on page.
@@ -949,7 +984,7 @@ export class Solver {
    /**
     * ### Solves a Coordinates captcha. 
     * 
-    * @param {{ body, imginstructions, textinstructions, language, lang, pingback }} params parameters Сoordinates Captcha as an object.
+    * @param {{ body, imginstructions, textinstructions, language, lang, pingback }} params parameters Coordinates Captcha as an object.
     * @param {string} params.body Base64-encoded captcha image.
     * @param {string} params.imginstructions Base64-encoded image with instruction for solving captcha.
     * @param {string} params.textinstructions Text will be shown to worker to help him to solve the captcha correctly. For example: click on all objects in red color.
@@ -1206,37 +1241,51 @@ public async mtCaptcha(params: paramsMTCaptcha): Promise<CaptchaAnswer> {
 }
 
 /**
- * ### Solves Cutcaptcha
+ * ### Solves a Cutcaptcha.
  * 
- * @param {{ pageurl, sitekey, userAgent, pingback, proxy, proxytype}} params Parameters MTCaptcha as an object.
- * @param {string} params.pageurl 	Full `URL` of the page where you see the captcha.
- * @param {string} params.sitekey TThe value of `sitekey` parameter found on the page.  
- * @param {string} params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
- * @param {string} params.proxy Format: `login:password@123.123.123.123:3128` You can find more info about proxies [here](https://2captcha.com/2captcha-api#proxies).
- * @param {string} params.proxytype Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * Use this method to solve Cutcaptcha. Returns the response in JSON.
+ * [Read more about Cutcaptcha Method](https://2captcha.com/2captcha-api#cutcaptcha).
  * 
- * @example 
+ * @param {{ pageurl, miseryKey, apiKey, pingback, proxy, proxytype }} params Parameters for solving Cutcaptcha as an object.
+ * @param {string} params.pageurl The URL where the captcha is located.
+ * @param {string} params.miseryKey The value of `CUTCAPTCHA_MISERY_KEY` variable defined on page.
+ * @param {string} params.apiKey The value of `data-apikey` attribute of iframe's body. Also the name of javascript file included on the page
+ * @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+ * @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+ * @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ * 
+ * @example
  * solver.cutCaptcha({
- *   pageurl: "https://service.mtcaptcha.com/mtcv1/demo/index.html",
- *   sitekey: "MTPublic-DemoKey9M"
+ *   pageurl: "https://mysite.com/page/with/cutcaptcha",
+ *   miseryKey: "098e6a849af406142e3150dbf4e6d0538db2b51f", 
+ *   apiKey: "SAs61IAI",
  * })
  * .then((res) => {
- *   console.log(res);
- *  })
+ *     console.log(res);
+ * })
  * .catch((err) => {
- *   console.log(err);
+ *     console.log(err);
  * })
  */
-public async cutCaptcha(params: paramsMTCaptcha): Promise<CaptchaAnswer> {
-    checkCaptchaParams(params, "mt_captcha")
+public async cutCaptcha(params: paramsCutcaptcha): Promise<CaptchaAnswer> {
+    params = renameParams(params)
+    checkCaptchaParams(params, "cutcaptcha")
 
     const payload = {
         ...params,
-        method: "mt_captcha",
+        method: "cutcaptcha",
         ...this.defaultPayload,
     }
 
-    const response = await fetch(this.in + utils.objectToURI(payload))
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
     const result = await response.text()
 
     let data;
@@ -1358,14 +1407,15 @@ public async boundingBox(params: paramsBoundingBox): Promise<CaptchaAnswer> {
  * 
  * The method can be used to bypass tasks where a grid is applied to an image and you need to click on grid tiles, like reCAPTCHA or hCaptcha images.
  * 
- * @param {{ body, textinstructions, imginstructions, rows, cols, minСlicks, maxСlicks, previousId, canSkip, lang, pingback}} params Parameters Grid Method as an object.
+ * @param {{ body, textinstructions, imginstructions, rows, cols, minClicks, maxClicks, imgType, previousId, canSkip, lang, pingback}} params Parameters Grid Method as an object.
  * @param {string} params.body `Base64`- encoded captcha image.
  * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
  * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
  * @param {number} params.rows Number of rows in grid captcha.
  * @param {number} params.cols Number of columns in grid captcdha.
- * @param {number} params.minСlicks The minimum number of tiles that must be selected. Can't be more than `rows` * `cols`.
- * @param {number} params.maxСlicks The maximum number of tiles that can be selected on the image.
+ * @param {number} params.minClicks The minimum number of tiles that must be selected. Can't be more than `rows` * `cols`.
+ * @param {number} params.maxClicks The maximum number of tiles that can be selected on the image.
+ * @param {string} params.imgType The image will be recognized using Computer Vision. Supported value options: `recaptcha`, `hcaptcha`, `funcaptcha`, `funcaptcha_compare`. [More info here](https://2captcha.com/2captcha-api#grid).
  * @param {string} params.previousId Id of your previous request with the same captcha challenge.
  * @param {number} params.canSkip Set the value to `1` only if it's possible that there's no images matching to the instruction. We'll provide a button "No matching images" to worker and you will receive `No_matching_images` as answer.
  * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
@@ -1402,6 +1452,430 @@ public async grid(params: paramsGrid): Promise<CaptchaAnswer> {
         method: "post",
         headers: {'Content-Type': 'application/json'}
     })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Text Captcha method
+ * 
+ * Text Captcha is a type of captcha that is represented as text and doesn't contain images. Usually you have to answer a question to pass the verification. For example: "If tomorrow is Saturday, what day is today?".
+ * [Read more about Text Captcha Method](https://2captcha.com/2captcha-api#text-captcha).
+ * 
+ * @param {{ textcaptcha, lang, pingback}} params Parameters Text Captcha Method as an object.
+ * @param {string} params.textcaptcha Text Captcha is a type of captcha that is represented as text and doesn't contain images. Usually you have to answer a question to pass the verification.
+ * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
+ *
+ * @example
+ * solver.text({
+ *   textcaptcha: "If tomorrow is Saturday, what day is today?",
+ *   lang: 'en'
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async text(params: paramsTextcaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "textcaptcha")
+
+    params = await renameParams(params)
+
+    const payload = {
+        ...params,
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify( payload ),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Canvas method
+ * 
+ * This method can be used to bypass tasks in which you need to circle an object or line in an image.
+ * [Read more about Canvas Method](https://2captcha.com/2captcha-api#canvas).
+ * 
+ * @param {{ body, textinstructions, imginstructions, canSkip, lang, pingback}} params Parameters Canvas as an object.
+ * @param {string} params.body `Base64`- encoded captcha image.
+ * @param {string} params.textinstructions Text will be shown to worker to help him to select object on the image correctly. For example: "*Select cars in the image*". **Optional parameter**, if the instruction already exists in the form of the `imginstructions`. 
+ * @param {string} params.imginstructions Image with instruction for worker to help him to select object on the image correctly. The image must be encoded in `Base64` format. **Optional parameter**, if the instruction already exists in the form of the `textinstructions`.
+ * @param {number} params.canSkip Set the value to `1` only if it's possible that there's no images matching to the instruction. We'll provide a button "No matching images" to worker and you will receive `No_matching_images` as answer.
+ * @param {string} params.lang Language code. [See the list of supported languages](https://2captcha.com/2captcha-api#language).
+ * @param {string} params.pingback params.pingback URL for pingback (callback) response that will be sent when captcha is solved. URL should be registered on the server. [More info here](https://2captcha.com/2captcha-api#pingback).
+ * 
+ * @example
+ * solver.canvas({
+ *   body: 'iVBORw0KGgoAAAANSgAAAcIA...',
+ *   imginstructions: '/9j/4AAQSkZJRgABAQEA...',
+ *   textinstructions: 'Highlight the red CIRCLE'
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ *  })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async canvas(params: paramsGrid): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "canvas")
+
+    params = await renameParams(params)
+
+    const payload = {
+        ...params,
+        recaptcha: 1,
+        canvas: 1,
+        method: "base64",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify( payload ),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+ * ### Rotate method
+ * 
+ * This method can be used to solve a captcha that asks to rotate an object. It is mostly used to bypass FunCaptcha. Returns the rotation angle.
+ * [Read more about Rotate Method](https://2captcha.com/2captcha-api#solving_rotatecaptcha).
+ * 
+ * @param {{ body, angle, pingback, lang, textinstructions, imginstructions }} params Parameters for solving Rotate Captcha as an object.
+ * @param {string} params.body Base64-encoded image of the captcha that needs to be rotated.
+ * @param {number} params.angle Angle to which the captcha needs to be rotated to solve it correctly. Value between `0` to `360`.
+ * @param {string} params.textinstructions Optional param. Text instruction that will be shown to worker to help solve the captcha correctly.
+ * @param {string} params.imginstructions Optional param. Base64-encoded image instruction that will be shown to worker to help solve the captcha correctly.
+ * @param {string} params.lang Optional param. Language code for worker to use while solving the captcha.
+ * @param {string} params.pingback Optional param. URL for pingback (callback) response when captcha is solved.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from the solve.
+ * @throws APIError
+ * 
+ * @example
+ * solver.rotate({
+ *   body: "iVBORw0KGgoAAAANSUhEUgAAAcIA...",
+ *   angle: 15,
+ *   textinstructions: "Rotate the object to the correct position"
+ * })
+ * .then((res) => {
+ *     console.log(res);
+ * })
+ * .catch((err) => {
+ *     console.log(err);
+ * })
+ */
+public async rotate(params: paramsRotateCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "rotatecaptcha")
+
+    const payload = {
+        ...params,
+        method: "rotatecaptcha",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}  
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+
+/**
+* ### Solves a KeyCaptcha.
+* 
+* This method can be used to solve a KeyCaptcha. It is mostly used to bypass captchas that use KeyCaptcha technology.
+* [Read more about KeyCaptcha Method](https://2captcha.com/2captcha-api#solving_keycaptcha).
+* 
+* @param {{ pageurl, userId, sessionId, webServerSign, webServerSign2, pingback, proxy, proxytype }} params Parameters for solving KeyCaptcha as an object.
+* @param {string} params.pageurl The URL where the captcha is located.
+* @param {string} params.userId Value of `s_s_c_user_id` parameter you found on page.
+* @param {string} params.sessionId Value of `s_s_c_session_id` parameter you found on page.
+* @param {string} params.webServerSign Value of `s_s_c_web_server_sign` parameter you found on page.
+* @param {string} params.webServerSign2 Value of `s_s_c_web_server_sign2` parameter you found on page.
+* @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+* @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+* @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+* 
+* @returns {Promise<CaptchaAnswer>} The result from the solve.
+* @throws APIError
+* 
+* @example
+* solver.keyCaptcha({
+*   pageurl: "https://2captcha.com/demo/keycaptcha",
+*   userId: "184015",
+*   sessionId: "11975dc265ce9174a54edb1619af15b7",
+*   webServerSign: "73ef77fd3cf0ce02947d9088bdc8412a",
+*   webServerSign2: "93836d9e7007f38f072ce07d89bb7e2b"
+* })
+* .then((res) => {
+*     console.log(res);
+* })
+* .catch((err) => {
+*     console.log(err);
+* })
+*/
+public async keyCaptcha(params: paramsKeyCaptcha): Promise<CaptchaAnswer> {
+    params = await renameParams(params)
+    checkCaptchaParams(params, "keycaptcha")
+
+    const payload = {
+        ...params,
+        method: "keycaptcha",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+* ### Solves a Tencent.
+* 
+* Use this method to solve Tencent captcha. Returns a token.
+* [Read more about Tencent Method](https://2captcha.com/2captcha-api#tencent).
+* 
+* @param {{ pageurl, appId, pingback, proxy, proxytype }} params Parameters for solving Tencent as an object.
+* @param {string} params.pageurl The URL where the captcha is located.
+* @param {string} params.appId 	The value of `appId` parameter in the website source code.
+* @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+* @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+* @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+* 
+* @returns {Promise<CaptchaAnswer>} The result from the solve.
+* @throws APIError
+* 
+* @example
+* solver.tencent({
+*   pageurl: "https://mysite.com/page/with/tencent",
+*   appId: "189956587"
+* })
+* .then((res) => {
+*     console.log(res);
+* })
+* .catch((err) => {
+*     console.log(err);
+* })
+*/
+public async tencent(params: paramsTencent): Promise<CaptchaAnswer> {
+    params = await renameParams(params)
+    checkCaptchaParams(params, "tencent")
+
+    const payload = {
+        ...params,
+        method: "tencent",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+/**
+* ### Solves a atbCAPTCHA.
+* 
+* Use this method to solve atbCAPTCHA captcha. Returns a token.
+* [Read more about atbCAPTCHA Method](https://2captcha.com/2captcha-api#atb-captcha).
+* 
+* @param {{ pageurl, appId, apiServer, pingback, proxy, proxytype }} params Parameters for solving atbCAPTCHA as an object.
+* @param {string} params.pageurl The URL where the captcha is located.
+* @param {string} params.appId 	The value of `appId` parameter in the website source code.
+* @param {string} params.apiServer The value of `apiServer` parameter in the website source code.
+* @param {string} [params.pingback] Optional param. URL for pingback (callback) response when captcha is solved.
+* @param {string} [params.proxy] Optional param. Proxy to use while solving the captcha. Format: `login:password@123.123.123.123:3128`.
+* @param {string} [params.proxytype] Optional param. Type of your proxy: `HTTP`, `HTTPS`, `SOCKS4`, `SOCKS5`.
+* 
+* @returns {Promise<CaptchaAnswer>} The result from the solve.
+* @throws APIError
+* 
+* @example
+* solver.atbCaptcha({
+*   pageurl: "https://mysite.com/page/with/tencent",
+*   appId: "af25e409b33d722a95e56a230ff8771c",
+    apiServer: "https://cap.aisecurius.com"
+* })
+* .then((res) => {
+*     console.log(res);
+* })
+* .catch((err) => {
+*     console.log(err);
+* })
+*/
+public async atbCaptcha(params: paramsAtbCaptcha): Promise<CaptchaAnswer> {
+    params = await renameParams(params)
+    checkCaptchaParams(params, "atb_captcha")
+
+    const payload = {
+        ...params,
+        method: "atb_captcha",
+        ...this.defaultPayload,
+    }
+
+    const URL = this.in
+    const response = await fetch(URL, {
+        body: JSON.stringify(payload),
+        method: "post",
+        headers: {'Content-Type': 'application/json'}
+    })
+    const result = await response.text()
+
+    let data;
+    try {
+        data = JSON.parse(result)
+    } catch {
+        throw new APIError(result)
+    }
+
+    if (data.status == 1) {
+        return this.pollResponse(data.request)
+    } else {
+        throw new APIError(data.request)
+    }
+}
+
+
+/**
+ * ### Method for solving Audio captcha.
+ * 
+ * Use the following method to bypass an audio captcha (`mp3` formats only). You must provide the language as `lang = 'en'`. Supported languages are "en", "ru", "de", "el", "pt", "fr".
+ * [Read more about Audio recognition Method](https://2captcha.com/2captcha-api#audio-recognition).
+ * 
+ * @param {{ body, lang, pingback }} params Object containing parameters for the audio captcha.
+ * @param {string} params.body Base64 encoded audio file in `mp3` format. Max file size: 1 MB.
+ * @param {string} params.lang The language of audio record. Supported languages are: "en", "ru", "de", "el", "pt", "fr".
+ * @param {string} [params.pingback] URL for pingback response once captcha is solved.
+ * 
+ * @returns {Promise<CaptchaAnswer>} The result from solving the audio captcha.
+ * @throws APIError
+ * @example
+ * solver.audio({
+ *   body: "SUQzBAAAAAAAHFRTU0UAAAA...",
+ *   lang: "en"
+ * })
+ * .then((res) => {
+ *   console.log(res);
+ * })
+ * .catch((err) => {
+ *   console.log(err);
+ * })
+ */
+public async audio(params: paramsAudioCaptcha): Promise<CaptchaAnswer> {
+    checkCaptchaParams(params, "audio")
+
+    const payload = {
+        ...params,
+        method: "audio",
+        ...this.defaultPayload
+    }
+
+    const response = await fetch(this.in, {
+        method: 'post',
+        body: JSON.stringify(payload),
+        headers: {'Content-Type': 'application/json'}
+    })
+
     const result = await response.text()
 
     let data;
