@@ -20,7 +20,6 @@ Examples of API requests for different captcha types are available on the [JavaS
     - [Image Captcha](#image-captcha)
     - [reCAPTCHA v2](#recaptcha-v2)
     - [reCAPTCHA v3](#recaptcha-v3)
-    - [hCaptcha](#hcaptcha)
     - [FunCaptcha](#funcaptcha)
     - [GeeTest](#geetest-captcha)
     - [GeeTest V4](#geetest-v4-captcha)
@@ -167,26 +166,6 @@ solver.recaptcha({
     version: "v3",
     min_score: "0.4",
     action: 'demo_action'
-})
-.then((res) => {
-  console.log(res);
-})
-.catch((err) => {
-  console.log(err);
-})
-```
-
-
-### hCaptcha
-
-<sup>[API method description.](https://2captcha.com/2captcha-api#solving_hcaptcha)</sup>
-
-Use this method to solve the hCaptcha challenge. Returns a token to bypass the captcha.
-
-```js
-solver.hcaptcha({
-  pageurl: "https://2captcha.com/demo/hcaptcha?difficulty=moderate",
-  sitekey: "b76cd927-d266-4cfb-a328-3b03ae07ded6"
 })
 .then((res) => {
   console.log(res);
@@ -701,7 +680,7 @@ solver.balance()
 
 ## Proxies
 
-You can pass your proxy as an additional argument for methods: recaptcha, funcaptcha, geetest, geetest v4, hcaptcha, keycaptcha, capy puzzle, lemin, turnstile, amazon waf, DataDome, CyberSiARA, MTCaptcha, Friendly Captcha and etc. The proxy will be forwarded to the API to solve the captcha.
+You can pass your proxy as an additional argument for methods: recaptcha, funcaptcha, geetest, geetest v4, keycaptcha, capy puzzle, lemin, turnstile, amazon waf, DataDome, CyberSiARA, MTCaptcha, Friendly Captcha and etc. The proxy will be forwarded to the API to solve the captcha.
 
 We have our own proxies that we can offer you. [Buy residential proxies] for avoid restrictions and blocks. [Quick start].
 
