@@ -427,7 +427,7 @@ console.log(err);
 The ClickCaptcha method returns the coordinates of points on the captcha image. It can be used if you need to click on particular points in the image.
 
 ```js
-const imageBase64 = fs.readFileSync("./tests/media/hCaptchaImage.jpg", "base64")
+const imageBase64 = fs.readFileSync("./tests/media/coordinates.jpg", "base64")
 
 solver.coordinates({
     body: imageBase64,
@@ -467,7 +467,7 @@ solver.boundingBox({
 
 <sup>[API method description.](https://2captcha.com/2captcha-api#grid)</sup>
 
-This method allows to solve any captcha where image can be divided into equal parts like reCAPTCHA V2 or hCaptcha. A grid is applied above the image. And you receive the numbers clicked boxes.
+This method allows to solve any captcha where image can be divided into equal parts like reCAPTCHA V2. A grid is applied above the image. And you receive the numbers clicked boxes.
 
 > [!IMPORTANT]  
 > You must to send instruction `imginstructions` or `textinstructions`.
