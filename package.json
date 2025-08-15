@@ -56,12 +56,8 @@
     "docgen": "tsc && yarn jsdoc ./dist -R \"./readme.md\" -P \"./package.json\" -t \"./node_modules/jaguarjs-jsdoc\" -d \"./docs\" -r",
     "example": "tsc && node ./tests/mtCaptcha.js"
   },
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  },
   "devDependencies": {
     "@types/node": "^20.8.7",
-    "@types/node-fetch": "^2.5.7",
     "dotenv": "^16.0.3",
     "jaguarjs-jsdoc": "^1.0.2",
     "jsdoc": "^4.0.2",
