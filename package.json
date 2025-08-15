@@ -54,7 +54,8 @@
     "build": "tsc && node ./dist/index.js",
     "jsdoc": "jsdoc",
     "docgen": "tsc && yarn jsdoc ./dist -R \"./readme.md\" -P \"./package.json\" -t \"./node_modules/jaguarjs-jsdoc\" -d \"./docs\" -r",
-    "example": "tsc && node ./tests/mtCaptcha.js"
+    "example": "tsc && node ./tests/mtCaptcha.js",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^22.17.1",
